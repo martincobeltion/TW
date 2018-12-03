@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         OTOtiwit
 // @namespace    http://tampermonkey.net/
-// @version      0.73
+// @version      0.74
 // @description  try to take over the world!
 // @author       You
 // @match        https://twitter.com/intent/*
@@ -24,7 +24,7 @@ function tarihYap(data){
 	var ay1=liste[3];
 	var monthNames = ["January", "February", "March", "April", "May", "June",
 	  "July", "August", "September", "October", "November", "December"];
-	var aylar = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+	var aylar = ['Ocak1','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
 	var aylarKisa = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
 	for(var i=0;i<monthNames.length ;i++)
 	{
