@@ -7,7 +7,7 @@
 // @match        https://twitter.com/intent/*
 // @match        https://twitter.com/*
 // @grant        none
-// @updateURL    http://localhost/tw1/OTOtiwit.user.js
+// @updateURL    https://github.com/martincobeltion/TW/raw/master/OTOtiwit.user.js
 // @require      https://code.jquery.com/jquery-3.3.1.js
 
 // ==/UserScript==
