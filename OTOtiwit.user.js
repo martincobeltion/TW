@@ -6,6 +6,7 @@
 // @author       You
 // @match        https://twitter.com/intent/*
 // @match        https://twitter.com/*
+// @match        http://localhost/*
 // @grant        none
 // @updateURL    https://github.com/martincobeltion/TW/raw/master/OTOtiwit.user.js
 // @require      https://code.jquery.com/jquery-3.3.1.js
@@ -34,7 +35,6 @@ function tarihYap(data){
 
 	ay1=ay1 < 10 ? '0' + ay1 : ay1;
 	var gun1 =liste[2] < 10 ? '0' + liste[2] : liste[2];
-	//alert("yÃÂÃÂÃÂÃÂ±l:"+yil1+" ay:"+ay1+" gÃÂÃÂÃÂÃÂ¼n:"+gun1+" saat:"+hh+" dakika:"+mi);
 	return new Date(yil1,ay1,gun1,hh,mi,0,0);
 };
 
@@ -75,6 +75,9 @@ function DmKontrol(Kim,kontrolNo)
 	$(".global-dm-nav .Icon--dm").trigger("click");
 	var isimListesi = [];
 	var msgSay=-1;
+	var fullname="";
+	var username="";
+	var msjIcerik="";
 	setTimeout(function()
 	{
 		var msgSay=$(".is-unread .DMInboxItem-title").length;
@@ -82,21 +85,14 @@ function DmKontrol(Kim,kontrolNo)
 		{
 			var a = [];
 			isimListesi = [];
-			$(".is-unread .DMInboxItem-title").each(function(){
-				$("b",this).each(function(){
-					a.push($(this).html());
-				});
+			$(".is-unread").each(function(){
+				fullname=$(".fullname",this).html();
+				username=$(".username b",this).html();
+				msjIcerik=$(".DMInboxItem-snippet",this).html();
+				mailAt(Kim,fullname,username,msjIcerik);
 			});
-
-			for (var k=0;k<a.length;k=k+2)
-				isimListesi.push(a[k]+"("+a[k+1]+")");
-			for (k=0;k<isimListesi.length-1;k++)
-				for (var j=k+1;j<isimListesi.length-2;j++)
-					if (isimListesi[k]==isimListesi[j])
-						isimListesi=isimListesi.splice(k, 1);
-			console.log(isimListesi);
+			console.log('fullname='+fullname+"&username="+username+"&msjIcerik="+msjIcerik);
 			sleep(500);
-			mailAt(Kim,isimListesi);
 		}
 		else
 			console.log("DmKontrol mesaj yok");
@@ -105,10 +101,11 @@ function DmKontrol(Kim,kontrolNo)
 	}, 5000);
 }
 
-function mailAt(kim,data)
+function mailAt(kim,fullname,username,msjIcerik)
 {
 	console.log(data.join("z:z"));
-	window.open('http://localhost/tw1/index.php?kim='+kim+'&mail='+data.join("z:z"), '_blank');
+	var objWindow=window.open('http://localhost/tw1/index.php?kim='+kim+'&fullname='+encodeURIComponent(fullname)+"&username="+username+"&msjIcerik="+encodeURIComponent(msjIcerik), '_blank');
+	setTimeout(objWindow.close(),5000);
 }
 
 function sleep(milliseconds) {
@@ -126,113 +123,121 @@ function sleep(milliseconds) {
 (function() {
     'use strict';
 	console.log("Pro basladi");
-	try {$(".AdaptiveMedia-threeQuartersWidthPhoto").hide();}
-		catch(err) {};
-	try {$(".AdaptiveMedia-thirdHeightPhotoContainer").hide();}
-		catch(err) {};
-	try {$(".AdaptiveMedia-video").hide();}
-		catch(err) {};
-	try {$(".AdaptiveMedia-container").hide();}
-		catch(err) {};
-	var profilNo=-1;
-	var periyot=34;
-	var profiller=[[1,'itsme_emirr',['23:52','21:2','10:16']],
-					[2,'RainLins',['17:4','15:56','22:10']],
-					[3,'yraitzi',['23:18','16:30','18:46']],
-					[4,'AdamHaruka',['14:14','19:54','17:38']],
-					[5,'KateElla3',['12:32','9:42','8:0']],
-					[6,'AhnesTorin',['13:6','22:44','14:48']],
-					[7,'Colinma61697610',['00:26','19:20','8:34']],
-					[8,'alisezer353535',['11:24','18:12','9:8']],
-					[9,'CalliKoral123',['15:22','11:58','21:36']],
-					[10,'kaminski_1231',['10:50','13:40','20:28']]];
+	var rgxlocal = /localhost\//;
+	if (rgxlocal.test(window.location.href))
+    {
+		window.location.href="https://twitter.com/";
+	}
+	else
+	{
+		try {$(".AdaptiveMedia-threeQuartersWidthPhoto").hide();}
+			catch(err) {};
+		try {$(".AdaptiveMedia-thirdHeightPhotoContainer").hide();}
+			catch(err) {};
+		try {$(".AdaptiveMedia-video").hide();}
+			catch(err) {};
+		try {$(".AdaptiveMedia-container").hide();}
+			catch(err) {};
+		var profilNo=-1;
+		var periyot=34;
+		var profiller=[[1,'itsme_emirr',['23:52','21:2','10:16']],
+						[2,'RainLins',['17:4','15:56','22:10']],
+						[3,'yraitzi',['23:18','16:30','18:46']],
+						[4,'AdamHaruka',['14:14','19:54','17:38']],
+						[5,'KateElla3',['12:32','9:42','8:0']],
+						[6,'AhnesTorin',['13:6','22:44','14:48']],
+						[7,'Colinma61697610',['00:26','19:20','8:34']],
+						[8,'alisezer353535',['11:24','18:12','9:8']],
+						[9,'CalliKoral123',['15:22','11:58','21:36']],
+						[10,'kaminski_1231',['10:50','13:40','20:28']]];
 
-    var rgxAnaSayfa = /twitter.com\/?$/;
-    var pattIntent = /twitter.com\/intent\/tweet*/;
-	try {
-		var kullanici=$(".DashUserDropdown-userInfoLink").attr("href");
-		kullanici=kullanici.toString().substr(1,kullanici.length);
-		var pattProfil= new RegExp("twitter.com/"+kullanici+"\/?","");
+		var rgxAnaSayfa = /twitter.com\/?$/;
+		var pattIntent = /twitter.com\/intent\/tweet*/;
+		try {
+			var kullanici=$(".DashUserDropdown-userInfoLink").attr("href");
+			kullanici=kullanici.toString().substr(1,kullanici.length);
+			var pattProfil= new RegExp("twitter.com/"+kullanici+"\/?","");
+			}
+		catch(err) {};
+
+		if (pattIntent.test(window.location.href))
+		{
+			console.log("Paylas");
+			document.getElementById("update-form").submit();
+			console.log("Paylasildi");
 		}
-	catch(err) {};
-
-    if (pattIntent.test(window.location.href))
-    {
-		console.log("Paylas");
-        document.getElementById("update-form").submit();
-		console.log("Paylasildi");
-    }
-    /*else if (rgxAnaSayfa.test(window.location.href))
-    {
-		if (!pattProfil.test(window.location.href))
-			setTimeout(function(){ window.location.href="https://twitter.com/"+kullanici; }, 5000);
-    }*/
-    else if (pattProfil.test(window.location.href))
-    {
-        /*var tarih = document.getElementsByClassName("tweet-timestamp js-permalink js-nav js-tooltip")[0].getAttribute("title");
-        var i=0;
-        $('.js-actionDelete').each(
-            function()
-            {
-                console.log($(this));
-                var zamn=this.parentNode.parentNode.parentNode.parentElement.parentElement.parentElement.getElementsByClassName("tweet-timestamp js-permalink js-nav js-tooltip")[0].getAttribute("title");
-                if (farkHesapla(zamn,Date.now()))
-                {
-                    //bekleme kodu ancak bÃÂÃÂ¶yle aÃÂÃÂÃÂÃÂ±lÃÂÃÂ±yor burda
-                    $(this).delay(5000).queue(function() {$(this).trigger('click');$('.delete-action').trigger('click')});
-                }
-            });
-    }*/
-
-
-		var sayi=0;
-		var msgSay=0;
-		var bekleme=0;
-		var isimListesi = [];
-		var saatler;
-		var atla=true;
-		for (var i=0;i<profiller.length;i++)
-			if (profiller[i][1]==kullanici)	{
-				profilNo=i;
-				saatler= profiller[profilNo][2];
-				break;
-			}
-
-		var otoBekleme = (Math.round(Math.random() * 2)+2)*60; //3 ile 6 arasinda sayi uretilecek
-		console.log("Okuma basliyor");
-		var timerr=setInterval(function() {
-			console.log("Okuma basliyor setInterval");
-			msgSay=$(".container li.dm-nav span.count-inner").html();			
-			atla=true;
-			if (msgSay!="" && msgSay>0)
+		/*else if (rgxAnaSayfa.test(window.location.href))
+		{
+			if (!pattProfil.test(window.location.href))
+				setTimeout(function(){ window.location.href="https://twitter.com/"+kullanici; }, 5000);
+		}*/
+		else if (pattProfil.test(window.location.href))
+		{
+			/*var tarih = document.getElementsByClassName("tweet-timestamp js-permalink js-nav js-tooltip")[0].getAttribute("title");
+			var i=0;
+			$('.js-actionDelete').each(
+				function()
 				{
-					console.log("Okuma basliyor msgSay="+msgSay);
-					atla=false;
-					console.log("1. Okuma basliyor");
-					DmKontrol((profilNo+1,"1").toString() +"_"+kullanici);
-					console.log("1. Okuma bitti");
-				}
-			bekleme=30+bekleme;
-			/*beklemepyl=beklemepyl+30;
+					console.log($(this));
+					var zamn=this.parentNode.parentNode.parentNode.parentElement.parentElement.parentElement.getElementsByClassName("tweet-timestamp js-permalink js-nav js-tooltip")[0].getAttribute("title");
+					if (farkHesapla(zamn,Date.now()))
+					{
+						//bekleme kodu ancak bÃÂÃÂ¶yle aÃÂÃÂÃÂÃÂ±lÃÂÃÂ±yor burda
+						$(this).delay(5000).queue(function() {$(this).trigger('click');$('.delete-action').trigger('click')});
+					}
+				});
+		}*/
 
-			if (bekleme>3600 && beklemepyl>120)
-				if saatKontol()
-					location.reload(1);
-				else
-					beklemepyl=0;*/
-			console.log("bekleme="+bekleme+" otoBekleme="+otoBekleme);
-			
-			if (bekleme>otoBekleme && saatKontol(saatler,periyot) && atla)
-			{
-				otoBekleme = (Math.round(Math.random() * 2)+2)*60;
-				bekleme=0;
-				console.log("2. Okuma basliyor");
-				DmKontrol((profilNo+1,"1").toString() +"_"+kullanici);
-				console.log("2. Okuma bitti");
-			}
-			if (bekleme>(otoBekleme*2))
-				bekleme=0;
-		},30000);
+
+			var sayi=0;
+			var msgSay=0;
+			var bekleme=0;
+			var isimListesi = [];
+			var saatler;
+			var atla=true;
+			for (var i=0;i<profiller.length;i++)
+				if (profiller[i][1]==kullanici)	{
+					profilNo=i;
+					saatler= profiller[profilNo][2];
+					break;
+				}
+
+			var otoBekleme = (Math.round(Math.random() * 2)+2)*60; //3 ile 6 arasinda sayi uretilecek
+			console.log("Okuma basliyor");
+			var timerr=setInterval(function() {
+				console.log("Okuma basliyor setInterval");
+				msgSay=$(".container li.dm-nav span.count-inner").html();			
+				atla=true;
+				if (msgSay!="" && msgSay>0)
+					{
+						console.log("Okuma basliyor msgSay="+msgSay);
+						atla=false;
+						console.log("1. Okuma basliyor");
+						DmKontrol((profilNo+1,"1").toString() +"_"+kullanici);
+						console.log("1. Okuma bitti");
+					}
+				bekleme=30+bekleme;
+				/*beklemepyl=beklemepyl+30;
+
+				if (bekleme>3600 && beklemepyl>120)
+					if saatKontol()
+						location.reload(1);
+					else
+						beklemepyl=0;*/
+				console.log("bekleme="+bekleme+" otoBekleme="+otoBekleme);
+				
+				if (bekleme>otoBekleme && saatKontol(saatler,periyot) && atla)
+				{
+					otoBekleme = (Math.round(Math.random() * 2)+2)*60;
+					bekleme=0;
+					console.log("2. Okuma basliyor");
+					DmKontrol((profilNo+1,"1").toString() +"_"+kullanici);
+					console.log("2. Okuma bitti");
+				}
+				if (bekleme>(otoBekleme*2))
+					bekleme=0;
+			},30000);
+		}
 	}
 }
 )();
