@@ -139,17 +139,22 @@ function sleep(milliseconds) {
 		try {$(".AdaptiveMedia-container").hide();}
 			catch(err) {};
 		var profilNo=-1;
-		var periyot=34;
-		var profiller=[[1,'itsme_emirr',['23:52','21:2','10:16']],
-						[2,'RainLins',['17:4','15:56','22:10']],
-						[3,'yraitzi',['23:18','16:30','18:46']],
-						[4,'AdamHaruka',['14:14','19:54','17:38']],
-						[5,'KateElla3',['12:32','9:42','8:0']],
-						[6,'AhnesTorin',['13:6','22:44','14:48']],
-						[7,'Colinma61697610',['00:26','19:20','8:34']],
-						[8,'alisezer353535',['11:24','18:12','9:8']],
-						[9,'CalliKoral123',['15:22','11:58','21:36']],
-						[10,'kaminski_1231',['10:50','13:40','20:28']]];
+var periyot=12;
+var profiller=[[1,'itsme_emirr',['20:12','20:48']],
+		[2,'RainLins',['22:0','00:36']],
+		[3,'yraitzi',['23:48','21:24']],
+		[4,'AdamHaruka',['24:48','23:12']],
+		[5,'KateElla3',['19:36','22:24']],
+		[6,'AhnesTorin',['22:12','20:0']],
+		[7,'Colinma61697610',['23:24','22:36']],
+		[8,'alisezer353535',['19:24','21:48']],
+		[9,'CalliKoral123',['23:36','19:0']],
+		[10,'kaminski_1231',['21:0','24:12']],
+		[11,'SNayden',['23:0','19:48']],
+		[12,'NeevCari',['19:12','20:36']],
+		[13,'GeorgiKasan',['22:48','21:12']],
+		[14,'nadeempharel',['24:24','20:24']],
+		[15,'KasemZola',['21:36','24:0']]];
 
 		var rgxAnaSayfa = /twitter.com\/?$/;
 		var pattIntent = /twitter.com\/intent\/tweet*/;
