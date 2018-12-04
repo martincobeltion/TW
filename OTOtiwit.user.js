@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         OTOtiwit
 // @namespace    http://tampermonkey.net/
-// @version      0.74
+// @version      0.76
 // @description  try to take over the world!
 // @author       You
 // @match        https://twitter.com/intent/*
@@ -103,7 +103,6 @@ function DmKontrol(Kim,kontrolNo)
 
 function mailAt(kim,fullname,username,msjIcerik)
 {
-	console.log(data.join("z:z"));
 	var objWindow=window.open('http://localhost/tw1/index.php?kim='+kim+'&fullname='+encodeURIComponent(fullname)+"&username="+username+"&msjIcerik="+encodeURIComponent(msjIcerik), '_blank');
 	setTimeout(objWindow.close(),5000);
 }
