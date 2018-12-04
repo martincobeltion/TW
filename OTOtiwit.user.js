@@ -1,12 +1,11 @@
 // ==UserScript==
 // @name         OTOtiwit
 // @namespace    http://tampermonkey.net/
-// @version      0.77
+// @version      0.78
 // @description  try to take over the world!
 // @author       You
 // @match        https://twitter.com/intent/*
 // @match        https://twitter.com/*
-// @match        http://localhost/*
 // @grant        none
 // @updateURL    https://github.com/martincobeltion/TW/raw/master/OTOtiwit.user.js
 // @require      https://code.jquery.com/jquery-3.3.1.js
@@ -25,7 +24,7 @@ function tarihYap(data){
 	var ay1=liste[3];
 	var monthNames = ["January", "February", "March", "April", "May", "June",
 	  "July", "August", "September", "October", "November", "December"];
-	var aylar = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+	var aylar = ['Ocak1','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
 	var aylarKisa = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
 	for(var i=0;i<monthNames.length ;i++)
 	{
@@ -123,12 +122,12 @@ function sleep(milliseconds) {
     'use strict';
 	console.log("Pro basladi");
 	var rgxlocal = /localhost\//;
-	if (rgxlocal.test(window.location.href))
+	/*if (rgxlocal.test(window.location.href))
     {
 		window.location.href="https://twitter.com/";
 	}
 	else
-	{
+	{*/
 		try {$(".AdaptiveMedia-threeQuartersWidthPhoto").hide();}
 			catch(err) {};
 		try {$(".AdaptiveMedia-thirdHeightPhotoContainer").hide();}
@@ -219,6 +218,7 @@ var profiller=[[1,'itsme_emirr',['20:12','20:48']],
 						console.log("1. Okuma basliyor");
 						DmKontrol((profilNo+1,"1").toString() +"_"+kullanici);
 						console.log("1. Okuma bitti");
+						msgSay=0;						
 					}
 				bekleme=30+bekleme;
 				/*beklemepyl=beklemepyl+30;
@@ -242,6 +242,6 @@ var profiller=[[1,'itsme_emirr',['20:12','20:48']],
 					bekleme=0;
 			},30000);
 		}
-	}
+	//}
 }
 )();
